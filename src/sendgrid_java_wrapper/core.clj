@@ -3,14 +3,26 @@
                          SendGrid$Email
                          SendGrid$Response)))
 
+(defn prepare-email [from subject html]
+  (-> (SendGrid$Email.)
+     (.setFrom from)
+     (.setSubject subject)
+     (.setHtml html)))
+
+(defn send [{username :api_user password :api_key} email]
+  (.send (SendGrid. username password)
+         email))
+
 (defn send-email
-  [{username :api_user password :api_key} {to :to from :from subject :subject html :html}]
-  (let [sendgrid (SendGrid. username password)
-        email (-> (SendGrid$Email.)
-                  (.addTo to)
-                  (.setFrom from)
-                  (.setSubject subject)
-                  (.setHtml html))
-        response (.send sendgrid email)]
+  [auth {to :to from :from subject :subject html :html}]
+  (let [email (-> (prepare-email from subject html)
+                 (.addTo to))
+        response (send auth email)]
     (.getMessage response)))
 
+(defn bulk-email
+  [auth {bcc :bcc from :from subject :subject html :html}]
+  (let [email (-> (prepare-email from subject html)
+                 (.addBcc bcc))
+        response (send auth email)]
+    (.getMessage response)))
