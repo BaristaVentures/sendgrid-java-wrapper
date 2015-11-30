@@ -18,9 +18,6 @@
   [auth {to :to from :from subject :subject html :html}]
   (let [email (-> (prepare-email from subject html)
                  (.addTo to))
-        hack (dorun
-              (println "the super awesome email" email)
-              (flush))
         response (-send auth email)]
     (.getMessage response)))
 
@@ -28,5 +25,8 @@
   [auth {bcc :bcc from :from subject :subject html :html}]
   (let [email (-> (prepare-email from subject html)
                  (.addBcc bcc))
+        hack (dorun
+              (println "the super awesome email" email)
+              (flush))
         response (-send auth email)]
     (.getMessage response)))
