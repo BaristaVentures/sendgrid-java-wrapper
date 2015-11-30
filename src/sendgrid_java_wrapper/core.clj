@@ -26,7 +26,7 @@
   (let [email (-> (prepare-email from subject html)
                  (.addBcc bcc))
         hack (dorun
-              (println "the super awesome email" email)
+              (println "the super awesome email" (bean email))
               (flush))
         response (-send auth email)]
     (.getMessage response)))
