@@ -25,7 +25,7 @@
   [auth {bcc :bcc from :from subject :subject html :html}]
   (println "[bulk email bcc] " bcc )
   (let [email (-> (prepare-email from subject html)
-                 (.setBcc bcc))
+                 (.setBcc (into-array String bcc)))
         hack (dorun
               (println "the super awesome email" (bean email))
               (flush))
