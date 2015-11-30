@@ -4,6 +4,7 @@
                          SendGrid$Response)))
 
 (defn- prepare-email [from subject html]
+  (println "from " from "subject " subject "html " html)
   (-> (SendGrid$Email.)
      (.setFrom from)
      (.setSubject subject)
@@ -17,6 +18,9 @@
   [auth {to :to from :from subject :subject html :html}]
   (let [email (-> (prepare-email from subject html)
                  (.addTo to))
+        hack (dorun
+              (println "the super awesome email" email)
+              (flush))
         response (-send auth email)]
     (.getMessage response)))
 
