@@ -23,6 +23,7 @@
 
 (defn bulk-email
   [auth {bcc :bcc from :from subject :subject html :html}]
+  (println "[bulk email bcc] " bcc )
   (let [email (-> (prepare-email from subject html)
                  (.addBcc bcc))
         hack (dorun
