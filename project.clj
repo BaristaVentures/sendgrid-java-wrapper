@@ -1,4 +1,4 @@
-(defproject sendgrid-java-wrapper "0.1.0-SNAPSHOT"
+(defproject sendgrid-java-wrapper "0.1.1-SNAPSHOT"
   :description "This clojure lib wraps the sendgrid-java lib to use it hassle free"
   :url "https://github.com/nullindustries/sendgrid-java-wrapper"
   :license {:name "Eclipse Public License"
