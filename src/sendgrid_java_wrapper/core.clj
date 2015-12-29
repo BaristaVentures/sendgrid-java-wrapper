@@ -4,7 +4,6 @@
                          SendGrid$Response)))
 
 (defn- prepare-email [from subject html]
-  (println "from: " from " subject: " subject " html: " html)
   (-> (SendGrid$Email.)
      (.setFrom from)
      (.setSubject subject)
@@ -33,25 +32,17 @@
 
 (defn bulk-email
   [auth {bcc :bcc from :from  subject :subject html :html from-name :from-name}]
-  (println "[bulk email bcc] " bcc )
   (let [email (-> (prepare-email from subject html)
                   (.setFromName from-name)
                   (.setBcc (into-array String bcc)))
-        hack (dorun
-              (println "the super awesome email" (bean email))
-              (flush))
         response (-send auth email)]
     (.getMessage response)))
 
 (defn bulk-email-groupid
   [auth {bcc :bcc from :from  subject :subject html :html from-name :from-name group-id :group-id}]
-  (println "[bulk email bcc] " bcc )
   (let [email (-> (prepare-email from subject html)
                   (.setFromName from-name)
                   (.setASMGroupId group-id)
                   (.setBcc (into-array String bcc)))
-        hack (dorun
-              (println "the super awesome email" email)
-              (flush))
         response (-send auth email)]
     (.getMessage response)))
